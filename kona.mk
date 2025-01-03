@@ -290,7 +290,8 @@ PRODUCT_PACKAGES += \
     SettingsProviderOverlayCommon \
     SystemUIOverlayCommon \
     TelephonyOverlayCommon \
-    WifiResourcesOverlayCommon
+    WifiResourcesOverlayCommon \
+    OpenDeltaOverlayKona
 
 PRODUCT_ENFORCE_RRO_TARGETS := *
 

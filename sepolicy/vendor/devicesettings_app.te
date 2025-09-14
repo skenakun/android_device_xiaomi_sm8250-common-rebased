@@ -12,6 +12,8 @@ r_dir_file(devicesettings_app, vendor_sysfs_graphics)
 allow devicesettings_app vendor_sysfs_graphics:dir r_dir_perms;
 allow devicesettings_app vendor_sysfs_graphics:file rw_file_perms;
 
+# Allow HBM to RW sysfs_livedisplay_tuneable
+allow devicesettings_app sysfs_livedisplay_tuneable:file rw_file_perms;
 allow devicesettings_app vendor_sysfs_battery_supply:dir search;
 allow devicesettings_app vendor_sysfs_battery_supply:file r_file_perms;
 

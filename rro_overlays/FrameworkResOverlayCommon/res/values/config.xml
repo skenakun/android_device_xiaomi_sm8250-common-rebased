@@ -327,4 +327,8 @@
 
     <!-- PowerOffAlarmService -->
     <bool name="config_powerOffAlarmEnabled">true</bool>
+
+    <!-- Whether to briefly keep the display in ON state when transitioning from
+         DOZE_AOD_PAUSED to DOZE_AOD state. -->
+    <bool name="config_displayTurnsOnWhenResumingAod">true</bool>
 </resources>

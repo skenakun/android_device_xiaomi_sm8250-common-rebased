@@ -69,7 +69,7 @@ DEX_PREOPT_DEFAULT := generate-vdex-and-image
 WITH_DEXPREOPT_DEBUG_INFO := false
 
 # Bluetooth
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(COMMON_PATH)/bluetooth/include
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(COMMON_PATH)/configs/bluetooth/include
 
 # Bootloader
 TARGET_BOOTLOADER_BOARD_NAME := kona
@@ -84,7 +84,7 @@ TARGET_USES_FOD_ZPOS := true
 endif
 
 # Filesystem
-TARGET_FS_CONFIG_GEN := $(COMMON_PATH)/config.fs
+TARGET_FS_CONFIG_GEN := $(COMMON_PATH)/configs/config.fs
 
 # Kernel
 ifeq ($(PRODUCT_VIRTUAL_AB_OTA),true)
@@ -133,6 +133,9 @@ $(foreach p, $(call to-upper, $(ALL_PARTITIONS)), \
     $(eval BOARD_$(p)IMAGE_FILE_SYSTEM_TYPE := ext4) \
     $(eval TARGET_COPY_OUT_$(p) := $(call to-lower, $(p))))
 
+$(foreach p, $(call to-upper, $(TREBLE_PARTITIONS)), \
+    $(eval BOARD_$(p)IMAGE_PARTITION_RESERVED_SIZE := 30720000))
+
 # Partitions - dynamic
 BOARD_SUPER_PARTITION_SIZE := 9126805504
 BOARD_SUPER_PARTITION_GROUPS := qti_dynamic_partitions
@@ -141,8 +144,6 @@ BOARD_QTI_DYNAMIC_PARTITIONS_SIZE := 9122611200 # (BOARD_SUPER_PARTITION_SIZE - 
 
 # Partitions - reserved size
 -include vendor/lineage/config/BoardConfigReservedSize.mk
-$(foreach p, $(call to-upper, $(TREBLE_PARTITIONS)), \
-    $(eval BOARD_$(p)IMAGE_PARTITION_RESERVED_SIZE := 30720000))
 
 ifneq ($(WITH_GMS),true)
 BOARD_PRODUCTIMAGE_EXTFS_INODE_COUNT ?= -1
@@ -166,11 +167,11 @@ BOARD_USES_QCOM_HARDWARE := true
 TARGET_BOARD_PLATFORM := kona
 
 # Properties
-TARGET_ODM_PROP += $(COMMON_PATH)/odm.prop
-TARGET_SYSTEM_PROP += $(COMMON_PATH)/system.prop
-TARGET_VENDOR_PROP += $(COMMON_PATH)/vendor.prop
+TARGET_ODM_PROP += $(COMMON_PATH)/properties/odm.prop
+TARGET_SYSTEM_PROP += $(COMMON_PATH)/properties/system.prop
+TARGET_VENDOR_PROP += $(COMMON_PATH)/properties/vendor.prop
 ifneq ($(TARGET_IS_TABLET),true)
-TARGET_VENDOR_PROP += $(COMMON_PATH)/vendor_phone.prop
+TARGET_VENDOR_PROP += $(COMMON_PATH)/properties/vendor_phone.prop
 endif
 
 # Recovery
@@ -235,18 +236,18 @@ endif
 
 # VINTF
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := \
-    $(COMMON_PATH)/framework_compatibility_dolby.xml \
-    $(COMMON_PATH)/framework_compatibility_matrix.xml \
-    $(COMMON_PATH)/device_framework_matrix.xml \
+    $(COMMON_PATH)/configs/vintf/framework_compatibility_dolby.xml \
+    $(COMMON_PATH)/configs/vintf/framework_compatibility_matrix.xml \
+    $(COMMON_PATH)/configs/vintf/device_framework_matrix.xml \
     hardware/qcom-caf/common/vendor_framework_compatibility_matrix.xml \
     hardware/xiaomi/vintf/xiaomi_framework_compatibility_matrix.xml
-DEVICE_MANIFEST_FILE += $(COMMON_PATH)/manifest.xml
+DEVICE_MANIFEST_FILE += $(COMMON_PATH)/configs/vintf/manifest.xml
 ifneq ($(TARGET_IS_TABLET),true)
-DEVICE_MANIFEST_FILE += $(COMMON_PATH)/manifest_phone.xml
+DEVICE_MANIFEST_FILE += $(COMMON_PATH)/configs/vintf/manifest_phone.xml
 endif
 DEVICE_MATRIX_FILE += hardware/qcom-caf/common/compatibility_matrix.xml
 ODM_MANIFEST_SKUS += nfc
-ODM_MANIFEST_NFC_FILES := $(COMMON_PATH)/manifest_nfc.xml
+ODM_MANIFEST_NFC_FILES := $(COMMON_PATH)/configs/vintf/manifest_nfc.xml
 
 # Wi-Fi
 BOARD_WLAN_DEVICE := qcwcn
